@@ -1,5 +1,6 @@
 package com.example.madcamp_week1;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,9 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,13 +30,43 @@ public class PhoneFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_phone, container, false);
-
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
         init(recyclerView);
-
         getData();
+
+        ImageButton imageButton = rootView.findViewById(R.id.addUserBtn);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AdduserActivity.class);
+                startActivityForResult(intent, 2);
+            }
+        });
+
+
         return rootView;
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 2){
+            if(data != null){
+                String name = data.getStringExtra("name");
+                String number = data.getStringExtra("number");
+                Log.e("name", name);
+                Log.e("number", number);
+                Data newUser = new Data();
+                newUser.setName(name);
+                newUser.setNumber(number);
+                adapter.addItem(newUser);
+                adapter.notifyDataSetChanged();
+            }
+
+        }
+
+    }
+
     public String getJsonString(){
         String json = "";
         try {
@@ -82,5 +115,4 @@ public class PhoneFragment extends Fragment {
         // adapter의 값이 변경되었다는 것을 알려줍니다.
         adapter.notifyDataSetChanged();
     }
-
 }
