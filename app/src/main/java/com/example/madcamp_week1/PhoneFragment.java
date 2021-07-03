@@ -1,5 +1,7 @@
 package com.example.madcamp_week1;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,11 +15,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +46,37 @@ public class PhoneFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AdduserActivity.class);
                 startActivityForResult(intent, 2);
+            }
+        });
+        ImageButton searchButton = rootView.findViewById(R.id.searchUserBtn);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final LinearLayout searchLinear = (LinearLayout) rootView.inflate(getContext(), R.layout.dialog_user,null);
+                final LinearLayout showLinear = (LinearLayout) rootView.inflate(getContext(), R.layout.dialog_show,null);
+                new AlertDialog.Builder(getContext()).setView(searchLinear).setPositiveButton("검색", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText name = (EditText) searchLinear.findViewById(R.id.searchUserDial);
+                        String value = name.getText().toString();
+                        String number = adapter.getItemNumber(value);
+                        TextView resultText = (TextView) showLinear.findViewById(R.id.showNumberResult);
+                        TextView result = (TextView) showLinear.findViewById(R.id.showNumberText);
+                        resultText.setText("Result");
+                        result.setText(value + " - " + number);
+                        new AlertDialog.Builder(getContext()).setView(showLinear).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog2, int which) {
+                                TextView resultText = (TextView) showLinear.findViewById(R.id.showNumberResult);
+                                TextView result = (TextView) showLinear.findViewById(R.id.showNumberText);
+                                resultText.setText("");
+                                result.setText("");
+                                dialog2.dismiss();
+                            }
+                        }).show();
+                        dialog.dismiss();
+                    }
+                }).show();
             }
         });
 
