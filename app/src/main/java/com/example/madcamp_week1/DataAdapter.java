@@ -22,6 +22,16 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(View v, int pos) ;
+    }
+
+    private OnItemClickListener mListener = null ;
+
+    public void setOnItemListener(OnItemClickListener listener) {
+        this.mListener = listener ;
+    }
+
     @Override
     public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_layout, viewGroup, false);
@@ -51,6 +61,20 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         public ViewHolder(View view) {
             super(view);
             img = view.findViewById(R.id.imageView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition() ;
+                    if (pos != RecyclerView.NO_POSITION) {
+                        // 데이터 리스트로부터 아이템 데이터 참조.
+                        // RecyclerItem item = mData.get(pos) ;
+                        // 리스너 객체의 메서드 호출
+
+
+                    }
+                }
+            });
         }
     }
 }

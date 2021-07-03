@@ -39,6 +39,13 @@ public class ImageFragment extends Fragment {
         DataAdapter dataAdapter = new DataAdapter(getActivity().getApplicationContext(), imageUrlList);
         recyclerView.setAdapter(dataAdapter);
 
+        dataAdapter.setOnItemListener(new DataAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                // TODO : 아이템 클릭 이벤트를 MainActivity에서 처리.
+            }
+        });
+
         return rootView;
     }
 
