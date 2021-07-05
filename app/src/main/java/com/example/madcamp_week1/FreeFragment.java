@@ -102,7 +102,7 @@ public class FreeFragment extends Fragment {
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 LatLng newLatLng = place.getLatLng();
                 map.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
-                map.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
+                map.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
                 Log.e("success -> ", "Place: " + place.getName() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
