@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -20,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.pager, RecyclerViewFragment.newInstance())
+                .commit();
 
         ViewPager pager = findViewById(R.id.pager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
@@ -37,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         PhoneFragment fragmentPhone = new PhoneFragment();
-        ImageFragment fragmentImage = new ImageFragment();
+        RecyclerViewFragment fragmentImage = new RecyclerViewFragment();
         FreeFragment fragmentFree = new FreeFragment();
 
 

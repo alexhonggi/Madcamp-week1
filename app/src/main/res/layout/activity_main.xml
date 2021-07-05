@@ -36,6 +36,8 @@
         app:layout_constraintBottom_toTopOf="@+id/tab_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </FrameLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
