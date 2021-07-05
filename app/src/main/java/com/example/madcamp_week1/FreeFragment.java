@@ -1,7 +1,6 @@
 package com.example.madcamp_week1;
 
 import android.Manifest;
-import androidx.appcompat.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,12 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -49,15 +49,21 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
+import noman.googleplaces.NRPlaces;
+import noman.googleplaces.PlaceType;
+import noman.googleplaces.PlacesException;
+import noman.googleplaces.PlacesListener;
 
 import static android.content.Context.LOCATION_SERVICE;
 
 
-public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback, PlacesListener {
     private static final int REQUEST_CODE_PERMISSIONS = 2021;
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     public GoogleMap map;
@@ -85,6 +91,8 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
 
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
     // (참고로 Toast에서는 Context가 필요했습니다.)
+
+    List<Marker> previous_marker = null;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -175,6 +183,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
         return inflater.inflate(R.layout.fragment_free, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
@@ -182,6 +191,18 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
         //        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 //        setContentView(R.layout.activity_main);
+
+        previous_marker = new ArrayList<Marker>();
+
+        Button button = (Button)view.findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPlaceInformation(currentPosition);
+            }
+        });
+
+
         mLayout = view.findViewById(R.id.map); // layout_main 대신에 map 임시 할
 
         locationRequest = new LocationRequest()
@@ -588,4 +609,69 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
         builder.create().show();
     }
 
+    @Override
+    public void onPlacesFailure(PlacesException e) {
+
+    }
+
+    @Override
+    public void onPlacesStart() {
+
+    }
+
+    @Override
+    public void onPlacesSuccess(final List<noman.googleplaces.Place> places) {
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (noman.googleplaces.Place place : places) {
+
+                    LatLng latLng
+                            = new LatLng(place.getLatitude()
+                            , place.getLongitude());
+
+                    String markerSnippet = getCurrentAddress(latLng);
+
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
+                    markerOptions.title(place.getName());
+                    markerOptions.snippet(markerSnippet);
+                    Marker item = map.addMarker(markerOptions);
+                    previous_marker.add(item);
+
+                }
+
+                //중복 마커 제거
+                HashSet<Marker> hashSet = new HashSet<Marker>();
+                hashSet.addAll(previous_marker);
+                previous_marker.clear();
+                previous_marker.addAll(hashSet);
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onPlacesFinished() {
+
+    }
+    public void showPlaceInformation(LatLng location)
+    {
+        map.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener((PlacesListener) this)
+                .key("AIzaSyDggoaGX_qBkovVgRx5X6uRYox2_9LNDCk")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(5000) //500 미터 내에서 검색
+                .type(PlaceType.RESTAURANT) //음식점
+                .language("ko", "KR")
+                .build()
+                .execute();
+    }
 }
