@@ -37,16 +37,22 @@ import java.util.List;
 public class FreeFragment extends Fragment {
     private static final int REQUEST_CODE_PERMISSIONS = 2021;
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
+    public GoogleMap map;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            map = googleMap;
             LatLng sydney = new LatLng(37.55526, 126.97082);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            googleMap.addMarker(new MarkerOptions().position(sydney).title("서울역"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(8.0f));
         }
+
+        /*public void movingCamera(GoogleMap googleMap, LatLng newPlace) {
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(newPlace));
+        }*/
     };
 
     @Nullable
@@ -94,6 +100,9 @@ public class FreeFragment extends Fragment {
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == AutocompleteActivity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
+                LatLng newLatLng = place.getLatLng();
+                map.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
+                map.animateCamera(CameraUpdateFactory.zoomTo(16.0f));
                 Log.e("success -> ", "Place: " + place.getName() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
