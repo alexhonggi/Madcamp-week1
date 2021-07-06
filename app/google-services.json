@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "574527924084",
+    "project_id": "instant-jetty-318713",
+    "storage_bucket": "instant-jetty-318713.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574527924084:android:1c8414cb10502f69b2ee21",
+        "android_client_info": {
+          "package_name": "com.example.madcamp_week1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574527924084-1h3m5ttsm1vfe6j4mr8vnlvaljbgch6s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.madcamp_week1",
+            "certificate_hash": "00b079dc4945486dbe63d3210587254db6ca4417"
+          }
+        },
+        {
+          "client_id": "574527924084-f8brlur5p7u9qmfdo6vcr431hrn2ofm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiC5nL8Gz_JqHoKgRbyBsGt7InekQRcmE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "574527924084-f8brlur5p7u9qmfdo6vcr431hrn2ofm5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

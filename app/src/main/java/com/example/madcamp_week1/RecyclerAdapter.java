@@ -43,6 +43,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
         listData.add(data);
     }
 
+    void clear(){
+        listData.clear();
+    }
+
     String getItemNumber(String name){
         String tmpNumber = "not exist";
         Data user;
