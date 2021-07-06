@@ -6,44 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/mapLinear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="0.8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-
-        <ImageButton
-            android:id="@+id/search_map_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/search_map"/>
-
-        <Button
-            android:text="RESTAURANT"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-            android:id="@+id/button"/>
-        <Button
-            android:text="CAFE"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-            android:id="@+id/cafe_button"/>
-        <Button
-            android:text="BUS"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-            android:id="@+id/bus_button"/>
-
-    </LinearLayout>
-
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -52,8 +14,87 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapLinear"
+        app:layout_constraintTop_toTopOf="parent"
         tools:context=".FreeFragment" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/search_map_btn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/fab_main"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="#ffffff"
+        android:src="@drawable/search_ic"
+        android:visibility="invisible"
+        app:maxImageSize="40dp"
+        app:borderWidth="0dp"
+        app:fabSize="normal" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fab_main"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/cafe_button"
+        app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="#ffffff"
+        android:src="@drawable/restau_ic"
+        android:visibility="invisible"
+        app:maxImageSize="40dp"
+        app:borderWidth="0dp"
+        app:fabSize="normal" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cafe_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fab_main"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/bus_button"
+        app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="#ffffff"
+        app:maxImageSize="40dp"
+        android:src="@drawable/cafe_ic"
+        android:visibility="invisible"
+        app:borderWidth="0dp"
+        app:fabSize="normal" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bus_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fab_main"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/fab_main"
+        app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="#ffffff"
+        app:srcCompat="@drawable/bus_ic"
+        app:maxImageSize="40dp"
+        android:visibility="invisible"
+        app:borderWidth="0dp"
+        app:fabSize="normal" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="30dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
