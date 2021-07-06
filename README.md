@@ -265,7 +265,6 @@ public String getCurrentAddress(LatLng latlng) {
 
 ...
 ```
-현재 위치 GPS정보 획득
 <img width="40%" src="https://user-images.githubusercontent.com/46164736/124595281-c87f1180-de9b-11eb-991b-a05a6bb8a75e.gif"/>
 
 
@@ -389,5 +388,4 @@ if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
 
 ```
 
-검색한 장소 인근의 건물 찾기
 <img width="40%" src="https://user-images.githubusercontent.com/46164736/124595558-23b10400-de9c-11eb-96a9-18ccb7ed875a.gif"/>
