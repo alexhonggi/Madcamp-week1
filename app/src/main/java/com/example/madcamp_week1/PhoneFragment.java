@@ -1,12 +1,16 @@
 package com.example.madcamp_week1;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,22 +23,37 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.jetbrains.annotations.NotNull;
 
 
 public class PhoneFragment extends Fragment {
+    private static final int REQUEST_CODE_PERMISSION = 2020;
+    int childNum;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();// ...
+    DatabaseReference myRef = database.getReference();
 
     private RecyclerAdapter adapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        while (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[] {Manifest.permission.INTERNET},
+                    REQUEST_CODE_PERMISSION);
+        }
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_phone, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
         init(recyclerView);
@@ -91,11 +110,12 @@ public class PhoneFragment extends Fragment {
             if(data != null){
                 String name = data.getStringExtra("name");
                 String number = data.getStringExtra("number");
-                Log.e("name", name);
-                Log.e("number", number);
+                //writeNewUser(String.valueOf(adapter.getItemCount()+1), name, number);
                 Data newUser = new Data();
                 newUser.setName(name);
                 newUser.setNumber(number);
+                myRef.child("users").child(String.valueOf(childNum+1)).setValue(newUser);
+                myRef.child("number").setValue(String.valueOf(childNum + 1));
                 adapter.addItem(newUser);
                 adapter.notifyDataSetChanged();
             }
@@ -104,25 +124,24 @@ public class PhoneFragment extends Fragment {
 
     }
 
-    public String getJsonString(){
-        String json = "";
-        try {
-            InputStream is = getActivity().getAssets().open("phone_book.json");
-            int fileSize = is.available();
+    /*private void writeNewUser(String userId, String name, String email) {
+        Data user = new Data(name, email);
 
-            byte[] buffer = new byte[fileSize];
-            is.read(buffer);
-            is.close();
+        myRef.child("users").child(userId).setValue(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getContext(), "저장을 완료했습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "저장을 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-            json = new String(buffer, "UTF-8");
-        }
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
-
-        return json;
-    }
+    }*/
     private void init(RecyclerView recyclerView) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -130,26 +149,48 @@ public class PhoneFragment extends Fragment {
         adapter = new RecyclerAdapter();
         recyclerView.setAdapter(adapter);
     }
+    /*private void readUser(String userID){
+        myRef.child("users").child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                if(dataSnapshot.getValue(Data.class) != null){
+                    Data post = dataSnapshot.getValue(Data.class);
+                    adapter.addItem(post);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "데이터 없음...", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("FireBaseData", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
+    }*/
 
     private void getData() {
         // 임의의 데이터입니다.
-        String json = getJsonString();
-        try{
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray userArray = jsonObject.getJSONArray("Users");
-            for(int i = 0; i < userArray.length(); i++){
-                JSONObject userObject = userArray.getJSONObject(i);
-                Data user = new Data();
-
-                user.setName(userObject.getString("name"));
-                user.setNumber(userObject.getString("number"));
-                adapter.addItem(user);
+        myRef.child("users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                adapter.clear();
+                childNum = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Data dData = snapshot.getValue(Data.class);
+                    adapter.addItem(dData);
+                    childNum++;
+                    Log.e("TAG", "onDataChange:"+ dData.getName());
+                }
+                adapter.notifyDataSetChanged();
+                myRef.child("number").setValue(String.valueOf(childNum));
             }
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-        // adapter의 값이 변경되었다는 것을 알려줍니다.
-        adapter.notifyDataSetChanged();
+            }
+        });
     }
 }

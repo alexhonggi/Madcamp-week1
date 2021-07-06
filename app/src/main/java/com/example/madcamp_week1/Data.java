@@ -6,6 +6,12 @@ public class Data {
     private String user_number;
     //private int resId;
 
+    public Data(){
+    }
+    public Data(String name, String num){
+        this.user_name = name;
+        this.user_number = num;
+    }
     public String getName() {
         return user_name;
     }
@@ -22,11 +28,11 @@ public class Data {
         this.user_number = number;
     }
 
-    /*public int getResId() {
-        return resId;
+    @Override
+    public String toString(){
+        return "User{" +
+                "userName='" + user_name + '\'' +
+                ", email='" + user_number + '\'' +
+                '}';
     }
-
-    public void setResId(int resId) {
-        this.resId = resId;
-    }*/
 }
