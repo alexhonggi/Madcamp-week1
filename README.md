@@ -78,7 +78,7 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 반환된 값들을 _onActivityResult_ 함수에서 사용하여 DB Reference를 통해 DB에 새로운 Data를 추가할 수 있게끔 하였습니다.  
 (`myRef.child("users").addValueEventListener()`가 호출됨)  
 
-<img width="100%" src="https://user-images.githubusercontent.com/46164736/124593515-b308e800-de99-11eb-800f-e4903ef23539.gif"/>
+<img width="40%" src="https://user-images.githubusercontent.com/46164736/124593515-b308e800-de99-11eb-800f-e4903ef23539.gif"/>
 
 #### 3. 연락처 검색  
 
@@ -105,7 +105,7 @@ ImageButton searchButton = rootView.findViewById(R.id.searchUserBtn);
                                 ...
 ```
 
-<img width="100%" src="https://user-images.githubusercontent.com/46164736/124593991-3d514c00-de9a-11eb-9535-6726451e34da.gif"/>
+<img width="40%" src="https://user-images.githubusercontent.com/46164736/124593991-3d514c00-de9a-11eb-9535-6726451e34da.gif"/>
 
 
 ## TAB2: Image Gallery
@@ -190,7 +190,7 @@ public class Utils {
 
 ```
 
-<img width="100%" src="https://user-images.githubusercontent.com/46164736/124594526-db451680-de9a-11eb-9871-e6dcd1864cb0.gif"/>
+<img width="40%" src="https://user-images.githubusercontent.com/46164736/124594526-db451680-de9a-11eb-9871-e6dcd1864cb0.gif"/>
 ## TAB3: Places
 
 ### Features
@@ -266,7 +266,7 @@ public String getCurrentAddress(LatLng latlng) {
 ...
 ```
 현재 위치 GPS정보 획득
-<img width="100%" src="https://user-images.githubusercontent.com/46164736/124595281-c87f1180-de9b-11eb-991b-a05a6bb8a75e.gif"/>
+<img width="40%" src="https://user-images.githubusercontent.com/46164736/124595281-c87f1180-de9b-11eb-991b-a05a6bb8a75e.gif"/>
 
 
 #### 2. 장소 검색과 연락처 저장하기
@@ -337,7 +337,7 @@ private void getData() {
     }
 ```
 
-<img width="100%" src="https://user-images.githubusercontent.com/46164736/124595461-02501800-de9c-11eb-9ed1-e6955448eebc.gif"/>
+<img width="40%" src="https://user-images.githubusercontent.com/46164736/124595461-02501800-de9c-11eb-9ed1-e6955448eebc.gif"/>
 
 #### 3. 카테고리에 따른 인근 장소 소개
 
@@ -390,4 +390,4 @@ if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
 ```
 
 검색한 장소 인근의 건물 찾기
-<img width="100%" src="https://user-images.githubusercontent.com/46164736/124595558-23b10400-de9c-11eb-96a9-18ccb7ed875a.gif"/>
+<img width="40%" src="https://user-images.githubusercontent.com/46164736/124595558-23b10400-de9c-11eb-96a9-18ccb7ed875a.gif"/>
