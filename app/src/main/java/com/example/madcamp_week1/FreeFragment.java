@@ -71,8 +71,8 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private static final int UPDATE_INTERVAL_MS = 100000;  // 1초
-    private static final int FASTEST_UPDATE_INTERVAL_MS = 50000; // 0.5초
+    private static final int UPDATE_INTERVAL_MS = 1000000;  // 1초
+    private static final int FASTEST_UPDATE_INTERVAL_MS = 500000; // 0.5초
 
     // onRequestPermissionsResult에서 수신된 결과에서 ActivityCompat.requestPermissions를 사용한 퍼미션 요청을 구별하기 위해 사용됩니다.
     private static final int PERMISSIONS_REQUEST_CODE = 100;
@@ -204,7 +204,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
         });
 
         Button cafeButton = (Button) view.findViewById(R.id.cafe_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        cafeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showCafeInformation(currentPosition);
@@ -212,7 +212,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
         });
 
         Button busButton = (Button) view.findViewById(R.id.bus_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        busButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showBusInformation(currentPosition);
@@ -294,6 +294,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
             if (resultCode == AutocompleteActivity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 LatLng newLatLng = place.getLatLng();
+                currentPosition = newLatLng ;
                 map.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
                 map.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
                 Log.e("success -> ", "Place: " + place.getName() + ", " + place.getId());
