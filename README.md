@@ -388,4 +388,4 @@ if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
 
 ```
 
-<img width="40%" src="https://user-images.githubusercontent.com/46164736/124595558-23b10400-de9c-11eb-96a9-18ccb7ed875a.gif"/>
+<img width="40%" src="https://user-images.githubusercontent.com/46164736/124596294-11839580-de9d-11eb-8aea-92e725f1bfe6.gif"/>
