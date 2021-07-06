@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -51,6 +53,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -104,6 +107,10 @@ public class FreeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private Location location;
+
+    private FloatingActionButton fabMain, button, cafeButton, busButton, searchMapBtn;
+    private Animation fab_open, fab_close;
+    private boolean isFabOpen = false;
 
 
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
@@ -238,6 +245,7 @@ public class FreeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         getData();
+
         return inflater.inflate(R.layout.fragment_free, container, false);
     }
 
@@ -252,27 +260,41 @@ public class FreeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
         previous_marker = new ArrayList<Marker>();
 
-        Button button = (Button)view.findViewById(R.id.button);
+        fab_open = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+
+        fabMain = view.findViewById(R.id.fab_main);
+        fabMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleFab();
+            }
+        });
+
+        button = (FloatingActionButton) view.findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPlaceInformation(currentPosition);
+                toggleFab();
             }
         });
 
-        Button cafeButton = (Button) view.findViewById(R.id.cafe_button);
+        cafeButton = (FloatingActionButton) view.findViewById(R.id.cafe_button);
         cafeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showCafeInformation(currentPosition);
+                toggleFab();
             }
         });
 
-        Button busButton = (Button) view.findViewById(R.id.bus_button);
+        busButton = (FloatingActionButton) view.findViewById(R.id.bus_button);
         busButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showBusInformation(currentPosition);
+                toggleFab();
             }
         });
 
@@ -311,7 +333,7 @@ public class FreeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             Places.initialize(getContext(), apikey);
         }
 
-        ImageButton searchMapBtn = (ImageButton) view.findViewById(R.id.search_map_btn);
+        searchMapBtn = (FloatingActionButton) view.findViewById(R.id.search_map_btn);
         searchMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -322,6 +344,33 @@ public class FreeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
         });
+    }
+
+    private void toggleFab() {
+        if (isFabOpen) {
+            fabMain.setImageResource(R.drawable.ic_add);
+            button.startAnimation(fab_close);
+            busButton.startAnimation(fab_close);
+            cafeButton.startAnimation(fab_close);
+            searchMapBtn.startAnimation(fab_close);
+            button.setClickable(false);
+            busButton.setClickable(false);
+            cafeButton.setClickable(false);
+            searchMapBtn.setClickable(false);
+            isFabOpen = false;
+        } else {
+            fabMain.setImageResource(R.drawable.ic_close);
+            button.startAnimation(fab_open);
+            busButton.startAnimation(fab_open);
+            cafeButton.startAnimation(fab_open);
+            searchMapBtn.startAnimation(fab_open);
+            button.setClickable(true);
+            busButton.setClickable(true);
+            cafeButton.setClickable(true);
+            searchMapBtn.setClickable(true);
+            isFabOpen = true;
+        }
+
     }
 
 
@@ -575,7 +624,7 @@ public class FreeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
 
         if (addresses == null || addresses.size() == 0) {
-            Toast.makeText(getActivity(), "주소 미발견", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "주소 미발견", Toast.LENGTH_SHORT).show();
             return "주소 미발견";
 
         } else {
@@ -716,8 +765,8 @@ public class FreeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     markerOptions.title(place.getName());
                     markerOptions.snippet(markerSnippet);
                     Marker item = map.addMarker(markerOptions);
+                    //item.setTag(0);TODO
                     previous_marker.add(item);
-
                 }
 
                 //중복 마커 제거
