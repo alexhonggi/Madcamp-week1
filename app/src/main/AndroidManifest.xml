@@ -8,17 +8,22 @@
          location permissions for the "MyLocation" functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <!-- 인터넷 사용 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- 인터넷 사용 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Madcamp_week1">
+        tools:replace="android:allowBackup"
 
         <uses-library
             android:name="org.apache.http.legacy"
