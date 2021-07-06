@@ -48,14 +48,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
     }
 
     String getItemNumber(String name){
-        String tmpNumber = "not exist";
+        String tmpNumber = "";
         Data user;
         for (int i=0; i<listData.size(); i++){
             user = listData.get(i);
-            if (user.getName().equals(name)){
-                tmpNumber = user.getNumber();
-                break;
+            if (user.getName().length() >= name.length()) {
+                if (user.getName().substring(0, name.length()).equals(name)) {
+                    tmpNumber += user.getName() + " - " + user.getNumber() + "\n";
+                }
             }
+        }
+        if (tmpNumber.equals("")){
+            tmpNumber = "not Exist";
         }
         return tmpNumber;
     }

@@ -78,11 +78,11 @@ public class PhoneFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         EditText name = (EditText) searchLinear.findViewById(R.id.searchUserDial);
                         String value = name.getText().toString();
-                        String number = adapter.getItemNumber(value);
+                        String resultList = adapter.getItemNumber(value);
                         TextView resultText = (TextView) showLinear.findViewById(R.id.showNumberResult);
                         TextView result = (TextView) showLinear.findViewById(R.id.showNumberText);
                         resultText.setText("Result");
-                        result.setText(value + " - " + number);
+                        result.setText(resultList);
                         new AlertDialog.Builder(getContext()).setView(showLinear).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog2, int which) {
