@@ -18,7 +18,7 @@ TAB3: 주변 장소 검색 기능 및 연락처 추가 기능을 탑재한 지�
 2. 연락처 추가하기
 3. 연락처 검색하기  
 #### 1. 연락처 불러오기  
-연락처들을 Array로 저장하여 관리하기 위해 아래와 같은 _Data_를 담는 [RecyclerView Adapter](https://developer.android.com/guide/topics/ui/layout/recyclerview?hl=ko)를 사용하였습니다.  
+연락처들을 Array로 저장하여 관리하기 위해 아래와 같은 _`Data`_를 담는 [RecyclerView Adapter](https://developer.android.com/guide/topics/ui/layout/recyclerview?hl=ko)를 사용하였습니다.  
 ```Java
 public class Data {
 
@@ -31,7 +31,8 @@ public class Data {
  **TAB3**를 구현하면서 **데이터베이스**의 필요성을 느끼게되었습니다.  
 
 [Google Firebase](https://firebase.google.com/)에서 제공되는 Realtime Database를 이용해 연락처를 DB에 저장하였고,   
-Firebase API에서 제공되는 [DB Reference](https://firebase.google.com/docs/android/setup?hl=ko)를 이용하여 아래와 같이 DB에 저장된 연락처들을 Recyclerview Adapter에 담아 화면에 나타내었습니다.  
+Firebase API에서 제공되는 [DB Reference](https://firebase.google.com/docs/android/setup?hl=ko)를 이용하여 아래와 같이 DB에 저장된 연락처들을   
+Recyclerview Adapter에 담아 화면에 나타내었습니다.  
 
 
 ```Java
@@ -77,6 +78,8 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 반환된 값들을 _onActivityResult_ 함수에서 사용하여 DB Reference를 통해 DB에 새로운 Data를 추가할 수 있게끔 하였습니다.  
 (`myRef.child("users").addValueEventListener()`가 호출됨)  
 
+<img width="100%" src="https://user-images.githubusercontent.com/46164736/124593515-b308e800-de99-11eb-800f-e4903ef23539.gif"/>
+
 #### 3. 연락처 검색  
 
 
@@ -102,6 +105,7 @@ ImageButton searchButton = rootView.findViewById(R.id.searchUserBtn);
                                 ...
 ```
 
+<img width="100%" src="https://user-images.githubusercontent.com/46164736/124593991-3d514c00-de9a-11eb-9535-6726451e34da.gif"/>
 
 
 ## TAB2: Image Gallery
@@ -185,7 +189,8 @@ public class Utils {
 }
 
 ```
-이미지 앨범 동영상 (동영상)
+
+<img width="100%" src="https://user-images.githubusercontent.com/46164736/124594526-db451680-de9a-11eb-9871-e6dcd1864cb0.gif"/>
 ## TAB3: Places
 
 ### Features
@@ -260,7 +265,8 @@ public String getCurrentAddress(LatLng latlng) {
 
 ...
 ```
-현재 위치 GPS정보 획득 (동영상)
+현재 위치 GPS정보 획득
+<img width="100%" src="https://user-images.githubusercontent.com/46164736/124595281-c87f1180-de9b-11eb-991b-a05a6bb8a75e.gif"/>
 
 
 #### 2. 장소 검색과 연락처 저장하기
@@ -331,6 +337,8 @@ private void getData() {
     }
 ```
 
+<img width="100%" src="https://user-images.githubusercontent.com/46164736/124595461-02501800-de9c-11eb-9ed1-e6955448eebc.gif"/>
+
 #### 3. 카테고리에 따른 인근 장소 소개
 
 장소를 종류별로 검색하여 원하는 정보를 얻기 위해, [Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview)를
@@ -381,5 +389,5 @@ if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
 
 ```
 
-검색한 장소 인근의 건물 찾기 >
-(동영상)
+검색한 장소 인근의 건물 찾기
+<img width="100%" src="https://user-images.githubusercontent.com/46164736/124595558-23b10400-de9c-11eb-96a9-18ccb7ed875a.gif"/>
