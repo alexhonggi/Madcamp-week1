@@ -687,7 +687,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
                 .listener((PlacesListener) this)
                 .key("AIzaSyDggoaGX_qBkovVgRx5X6uRYox2_9LNDCk")
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(5000) //500 미터 내에서 검색
+                .radius(3000) //500 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
                 .language("ko", "KR")
                 .build()
@@ -704,7 +704,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
                 .listener((PlacesListener) this)
                 .key("AIzaSyDggoaGX_qBkovVgRx5X6uRYox2_9LNDCk")
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(5000) //500 미터 내에서 검색
+                .radius(3000) //500 미터 내에서 검색
                 .type(PlaceType.CAFE) // 카페
                 .language("ko", "KR")
                 .build()
@@ -721,7 +721,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
                 .listener((PlacesListener) this)
                 .key("AIzaSyDggoaGX_qBkovVgRx5X6uRYox2_9LNDCk")
                 .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(5000) //500 미터 내에서 검색
+                .radius(3000) //500 미터 내에서 검색
                 .type(PlaceType.BUS_STATION) // 카페
                 .language("ko", "KR")
                 .build()
