@@ -1,7 +1,6 @@
 package com.example.madcamp_week1;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -193,45 +192,6 @@ public class FreeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         /*public void movingCamera(GoogleMap googleMap, LatLng newPlace) {
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(newPlace));
         }*/
-
-    @Override
-    public boolean onMarkerClick(final Marker marker) {
-
-        // Retrieve the data from the marker.
-        Integer clickCount = (Integer) marker.getTag();
-
-        // Check if a click count was set, then display the click count.
-        if (clickCount != null) {
-            clickCount = clickCount + 1;
-            marker.setTag(clickCount);
-            String title = marker.getTitle();
-            String phoneNumber = marker.getSnippet();
-            if (phoneNumber == null){
-                Toast.makeText(getActivity(), marker.getTitle() + "은(는) 번호가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
-            }else{
-                final LinearLayout addPlaceLinear = (LinearLayout) getView().inflate(getContext(), R.layout.dialog_place,null);
-                new AlertDialog.Builder(getContext()).setView(addPlaceLinear).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newNumber = phoneNumber.substring(4);
-                        Data newUser = new Data(title, "0"+newNumber);
-                        myRef.child("users").child(String.valueOf(childNum+1)).setValue(newUser);
-                        dialog.dismiss();
-                    }
-                }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
-            }
-        }
-
-        // Return false to indicate that we have not consumed the event and that we wish
-        // for the default behavior to occur (which is for the camera to move such that the
-        // marker is centered and for the marker's info window to open, if it has one).
-        return false;
-    }
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
@@ -615,7 +575,7 @@ public class FreeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
 
         if (addresses == null || addresses.size() == 0) {
-            Toast.makeText(getActivity(), "주소 미발견", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "주소 미발견", Toast.LENGTH_SHORT).show();
             return "주소 미발견";
 
         } else {
