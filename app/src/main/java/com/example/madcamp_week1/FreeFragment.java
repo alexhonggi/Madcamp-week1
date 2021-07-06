@@ -71,8 +71,8 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
-    private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
+    private static final int UPDATE_INTERVAL_MS = 100000;  // 1초
+    private static final int FASTEST_UPDATE_INTERVAL_MS = 50000; // 0.5초
 
     // onRequestPermissionsResult에서 수신된 결과에서 ActivityCompat.requestPermissions를 사용한 퍼미션 요청을 구별하기 위해 사용됩니다.
     private static final int PERMISSIONS_REQUEST_CODE = 100;
@@ -89,6 +89,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
     private LocationRequest locationRequest;
     private Location location;
 
+
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
     // (참고로 Toast에서는 Context가 필요했습니다.)
 
@@ -102,10 +103,10 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
             Log.d(TAG, "onMapReady :");
 
             map = googleMap;
-            LatLng sydney = new LatLng(37.55526, 126.97082);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("서울역"));
+            LatLng sydney = new LatLng(36.3245, 127.3606);
+            // googleMap.addMarker(new MarkerOptions().position(sydney).title("서울역"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-            googleMap.animateCamera(CameraUpdateFactory.zoomTo(8.0f));
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(10.0f));
 
             // setDefaultLocation();
 
@@ -164,7 +165,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
             map.getUiSettings().setMyLocationButtonEnabled(true);
             // 현재 오동작을 해서 주석처리
 
-            //mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            map.animateCamera(CameraUpdateFactory.zoomTo(15));
             map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
                 @Override
@@ -199,6 +200,22 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
             @Override
             public void onClick(View v) {
                 showPlaceInformation(currentPosition);
+            }
+        });
+
+        Button cafeButton = (Button) view.findViewById(R.id.cafe_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCafeInformation(currentPosition);
+            }
+        });
+
+        Button busButton = (Button) view.findViewById(R.id.bus_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBusInformation(currentPosition);
             }
         });
 
@@ -241,7 +258,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
         searchMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.PHONE_NUMBER);
                 Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields).setCountry("KR")
                         .build(getContext());
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
@@ -380,6 +397,7 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
 
                 currentPosition
                         = new LatLng(location.getLatitude(), location.getLongitude());
+
 
 
                 String markerTitle = getCurrentAddress(currentPosition);
@@ -670,6 +688,40 @@ public class FreeFragment extends Fragment implements ActivityCompat.OnRequestPe
                 .latlng(location.latitude, location.longitude)//현재 위치
                 .radius(5000) //500 미터 내에서 검색
                 .type(PlaceType.RESTAURANT) //음식점
+                .language("ko", "KR")
+                .build()
+                .execute();
+    }
+    public void showCafeInformation(LatLng location)
+    {
+        map.clear(); // 지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear(); // 지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener((PlacesListener) this)
+                .key("AIzaSyDggoaGX_qBkovVgRx5X6uRYox2_9LNDCk")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(5000) //500 미터 내에서 검색
+                .type(PlaceType.CAFE) // 카페
+                .language("ko", "KR")
+                .build()
+                .execute();
+    }
+    public void showBusInformation(LatLng location)
+    {
+        map.clear(); // 지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear(); // 지역정보 마커 클리어
+
+        new NRPlaces.Builder()
+                .listener((PlacesListener) this)
+                .key("AIzaSyDggoaGX_qBkovVgRx5X6uRYox2_9LNDCk")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(5000) //500 미터 내에서 검색
+                .type(PlaceType.BUS_STATION) // 카페
                 .language("ko", "KR")
                 .build()
                 .execute();

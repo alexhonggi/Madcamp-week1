@@ -24,11 +24,23 @@
             android:src="@drawable/search_map"/>
 
         <Button
-            android:text="장소검색"
+            android:text="RESTAURANT"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.2"
             android:id="@+id/button"/>
+        <Button
+            android:text="CAFE"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:id="@+id/cafe_button"/>
+        <Button
+            android:text="BUS"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:id="@+id/bus_button"/>
 
     </LinearLayout>
 
