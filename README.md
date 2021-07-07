@@ -1,4 +1,4 @@
-# MadCamp_Week1
+# NearBy
 
 ## 팀원
 [윤영훈](https://github.com/wodlxosxos), [이홍기](https://github.com/alexhonggi)
