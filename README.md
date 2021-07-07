@@ -18,7 +18,7 @@ TAB3: 주변 장소 검색 기능 및 연락처 추가 기능을 탑재한 지�
 2. 연락처 추가하기
 3. 연락처 검색하기  
 #### 1. 연락처 불러오기  
-연락처들을 Array로 저장하여 관리하기 위해 아래와 같은 _`Data`_를 담는 [RecyclerView Adapter](https://developer.android.com/guide/topics/ui/layout/recyclerview?hl=ko)를 사용하였습니다.  
+연락처들을 Array로 저장하여 관리하기 위해 아래와 같은 `Data`를 담는 [RecyclerView Adapter](https://developer.android.com/guide/topics/ui/layout/recyclerview?hl=ko)를 사용하였습니다.  
 ```Java
 public class Data {
 
