@@ -190,7 +190,8 @@ public class Utils {
 
 ```
 
-<img width="40%" src="https://user-images.githubusercontent.com/46164736/124594526-db451680-de9a-11eb-9871-e6dcd1864cb0.gif"/>
+<img width="40%" src="https://user-images.githubusercontent.com/46164736/124594526-db451680-de9a-11eb-9871-e6dcd1864cb0.gif"/>  
+
 ## TAB3: Places
 
 ### Features
